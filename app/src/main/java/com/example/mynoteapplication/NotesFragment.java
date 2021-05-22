@@ -67,7 +67,7 @@ public class NotesFragment extends Fragment {
 
     private void initList(View view) {
         LinearLayout linearLayout = (LinearLayout) view;
-        note = new ArrayList <Note>();
+        note = new ArrayList<>();
         note.add(new Note("Title1 ", "05.05.2021 ", "bla "));
         note.add(new Note("Title2 ", "11.07.21 ", "content "));
         note.add(new Note("Title3 ", "06.06.2021 ", "description "));
@@ -78,12 +78,7 @@ public class NotesFragment extends Fragment {
             textView.setTextSize(30);
             linearLayout.addView(textView);
             final int fi = i;
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showContent(fi);
-                }
-            });
+            textView.setOnClickListener(v -> showContent(fi));
         }
     }
 
