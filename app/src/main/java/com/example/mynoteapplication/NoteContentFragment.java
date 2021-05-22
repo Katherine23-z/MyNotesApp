@@ -14,7 +14,7 @@ import android.widget.TextView;
 public class NoteContentFragment extends Fragment {
 
     public static final String ARG_PARAM1 = "index";
-    private static final int DEFAULT_INDEX = 0;
+    public static final int DEFAULT_INDEX = 0;
     private int index = DEFAULT_INDEX;
 
     public NoteContentFragment() {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/purple_500"
     tools:context=".NoteContentFragment">
 
 
@@ -10,6 +11,7 @@
         android:id="@+id/note_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/pink"
        />
 
 </FrameLayout>

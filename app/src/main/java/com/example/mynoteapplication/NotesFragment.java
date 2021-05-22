@@ -1,6 +1,8 @@
 package com.example.mynoteapplication;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,10 +20,8 @@ import java.util.List;
 
 
 public class NotesFragment extends Fragment {
+    private boolean isLandscape;
 
-    private static final String ARG_PARAM1 = "param1";
-
-    private String mParam1;
     List<Note> note;
 
     public NotesFragment() {
@@ -56,6 +56,15 @@ public class NotesFragment extends Fragment {
         initList (view);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        if(isLandscape){
+            showContent(NoteContentFragment.DEFAULT_INDEX);
+        }
+    }
+
     private void initList(View view) {
         LinearLayout linearLayout = (LinearLayout) view;
         note = new ArrayList <Note>();
@@ -72,13 +81,30 @@ public class NotesFragment extends Fragment {
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showNoteContent(fi);
+                    showContent(fi);
                 }
             });
         }
     }
 
-    private void showNoteContent(int index){
+    void showContent(int index){
+        if (isLandscape){
+            showLandContent(index);
+        }else {
+            showPortContent(index);
+        }
+    }
+
+    private void showLandContent(int index) {
+        NoteContentFragment contentFragment = NoteContentFragment.newInstance(index);
+
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_container, contentFragment)
+                .commit();
+    }
+
+    private void showPortContent(int index){
         Intent intent = new Intent();
         intent.setClass(getActivity(), NoteContentActivity.class);
         intent.putExtra(NoteContentFragment.ARG_PARAM1, index);
