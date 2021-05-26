@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             switch (id) {
                 case R.id.action_settings:
                     Toast.makeText(MainActivity.this, "Open Settings", Toast.LENGTH_SHORT).show();
-                    //TODO addFragment(new SettingsFragment())
                 case R.id.action_share:
                     Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
                 case R.id.action_favourite:
