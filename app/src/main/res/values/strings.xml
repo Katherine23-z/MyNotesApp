@@ -10,10 +10,4 @@
     <string name="add">add</string>
     <string name="delete">delete</string>
     <string name="main">main</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="fragment_navigation">Navigation</string>
-    <string name="settings">Srttings</string>
-    <string name="share">Share</string>
-    <string name="favourite">Favourite</string>
 </resources>
