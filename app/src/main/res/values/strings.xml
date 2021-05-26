@@ -6,4 +6,8 @@
     <string name="note1">content1</string>
     <string name="note2">content2</string>
     <string name="note3">content3</string>
+    <string name="search">search</string>
+    <string name="add">add</string>
+    <string name="delete">delete</string>
+    <string name="main">main</string>
 </resources>
