@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ClipData;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-
     }
 
     private void initView() {
@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
                 case R.id.action_favourite:
                     Toast.makeText(MainActivity.this, "Add to favourite", Toast.LENGTH_SHORT).show();
-            } return false;
+            }
+            return false;
         });
-
 
 
     }
