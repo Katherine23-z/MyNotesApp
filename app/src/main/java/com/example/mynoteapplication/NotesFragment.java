@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,32 +28,20 @@ public class NotesFragment extends Fragment {
     public NotesFragment() {
     }
 
-    /*public static NotesFragment newInstance(String param1, String param2) {
-        NotesFragment fragment = new NotesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-
-        }
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(new MyAdapter(initList()));
+        MyAdapter adapter = new MyAdapter(new NoteSourceImpl(getResources()).init());
+        recyclerView.setAdapter(adapter);
+        adapter.setListener(this::showContent);
         LinearLayoutManager manager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(manager);
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL);
+        decoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
+        recyclerView.addItemDecoration(decoration);
 
         return view;
     }
@@ -60,47 +49,22 @@ public class NotesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*initList (view);*/
+        /*initList(view);*/
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-        if(isLandscape){
+        if (isLandscape) {
             showContent(NoteContentFragment.DEFAULT_INDEX);
         }
     }
 
-    /*private void initList(View view) {
-        LinearLayout linearLayout = (LinearLayout) view;
-        noteList = new ArrayList<>();
-        noteList.add(new Note("Title1 ", "05.05.2021 ", "bla "));
-        note.add(new Note("Title2 ", "11.07.21 ", "content "));
-        note.add(new Note("Title3 ", "06.06.2021 ", "description "));
-        for (int i = 0; i < note.size(); i++){
-            Note position = note.get(i);
-            TextView textView = new TextView(getContext());
-            textView.setText(String.format("%s%s%s", position.getTitle(), position.getDate(), position.getDescription()));
-            textView.setTextSize(30);
-            linearLayout.addView(textView);
-            final int fi = i;
-            textView.setOnClickListener(v -> showContent(fi));
-        }
-    }*/
-
-    private List<Note> initList(){
-        List<Note> note = new ArrayList<>();
-        note.add(new Note("Title1 ", "05.05.2021 ", "bla "));
-        note.add(new Note("Title2 ", "11.07.21 ", "content "));
-        note.add(new Note("Title3 ", "06.06.2021 ", "description "));
-        return note;
-    }
-
-    void showContent(int index){
-        if (isLandscape){
+    void showContent(int index) {
+        if (isLandscape) {
             showLandContent(index);
-        }else {
+        } else {
             showPortContent(index);
         }
     }
@@ -114,7 +78,7 @@ public class NotesFragment extends Fragment {
                 .commit();
     }
 
-    private void showPortContent(int index){
+    private void showPortContent(int index) {
         Intent intent = new Intent();
         intent.setClass(getActivity(), NoteContentActivity.class);
         intent.putExtra(NoteContentFragment.ARG_PARAM1, index);

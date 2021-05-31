@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -43,14 +44,17 @@ public class NoteContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_note_content, container, false);
-        TextView textView = view.findViewById(R.id.note_content);
+        TextView content = view.findViewById(R.id.note_content);
         TypedArray notes = getResources().obtainTypedArray(R.array.note_content);
-        textView.setText(notes.getResourceId(index, DEFAULT_INDEX));
-        textView.setTextSize(30);
-        
+        content.setText(notes.getResourceId(index, DEFAULT_INDEX));
+        content.setTextSize(30);
+        ImageView image = view.findViewById(R.id.image);
+        TypedArray images = getResources().obtainTypedArray(R.array.images);
+        image.setImageResource(images.getResourceId(index, DEFAULT_INDEX));
         return view;
     }
+
+
 
 }
