@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class NoteSourceImpl implements NoteSource{
@@ -25,7 +26,8 @@ public class NoteSourceImpl implements NoteSource{
             list.add(new Note(
                     titles[i],
                     content[i],
-                    images[i]
+                    images[i],
+                    Calendar.getInstance().getTime()
             ));
         }return this;
     }
@@ -46,5 +48,25 @@ public class NoteSourceImpl implements NoteSource{
     @Override
     public int size() {
         return list.size();
+    }
+
+    @Override
+    public void deleteNote(int position) {
+        list.remove(position);
+    }
+
+    @Override
+    public void updateNote(int position, Note note) {
+        list.set(position, note);
+    }
+
+    @Override
+    public void addNote(Note note) {
+        list.add(note);
+    }
+
+    @Override
+    public void clearNote() {
+        list.clear();
     }
 }

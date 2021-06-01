@@ -21,18 +21,11 @@
 
     <item
         android:title="@string/delete"
-        android:id="@+id/action_delete"
+        android:id="@+id/action_clear"
         android:icon="@drawable/ic_action_delete"
         android:orderInCategory="20"
         app:showAsAction="ifRoom"
         />
 
-    <item
-        android:title="@string/main"
-        android:id="@+id/action_main"
-        android:icon="@drawable/ic_action_star"
-        android:orderInCategory="30"
-        app:showAsAction="always"
-        />
 
 </menu>

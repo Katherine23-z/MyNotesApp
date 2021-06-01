@@ -3,21 +3,27 @@ package com.example.mynoteapplication;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    /*private List<Note> notes;*/
-    private NoteSource noteSource;
+    private NoteSourceImpl noteSource;
+    private Fragment fragment;
     private OnItemClickListener listener;
+    private int menuPosition;
 
-    public MyAdapter(NoteSource noteSource) {
+    public MyAdapter(NoteSourceImpl noteSource, Fragment fragment) {
         this.noteSource = noteSource;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -42,24 +48,62 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return noteSource.size();
     }
 
-    public void setListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public int getMenuPosition(){
+        return menuPosition;
     }
 
      class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textView;
+        private TextView title;
+        private TextView content;
+        private AppCompatImageView image;
+        private TextView date;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            title = itemView.findViewById(R.id.title);
+            content = itemView.findViewById(R.id.content);
+            image = itemView.findViewById(R.id.image);
+            date = itemView.findViewById(R.id.date);
+
+            registerContextMenu(itemView);
         }
 
-        void bind(Note note) {
-            textView.setText(note.getTitle());
-            textView.setOnClickListener(v -> {
+         private void registerContextMenu(View itemView) {
+            if (fragment != null){
+                itemView.setOnLongClickListener(new View.OnLongClickListener(){
+                    @Override
+                    public boolean onLongClick(View v) {
+                        menuPosition = getLayoutPosition();
+                        return false;
+                    }
+                });
+                fragment.registerForContextMenu(itemView);
+            }
+         }
+
+         void bind(Note note) {
+            title.setText(note.getTitle());
+            content.setText(note.getText());
+            image.setImageResource(note.getPicture());
+            date.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDate()));
+
+            image.setOnClickListener(v -> {
                 if(listener != null){
                     listener.onItemClick(getAdapterPosition());
+                }
+            });
+
+            image.setOnLongClickListener(new View.OnLongClickListener(){
+                @Override
+                public boolean onLongClick(View v) {
+                    menuPosition = getLayoutPosition();
+                    itemView.showContextMenu();
+                    return true;
                 }
             });
         }

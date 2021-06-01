@@ -18,12 +18,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    private Navigation navigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        navigation = new Navigation(getSupportFragmentManager());
         initView();
+        getNavigation().addFragment(NotesFragment.newInstance());
     }
 
     private void initView() {
@@ -58,8 +61,10 @@ public class MainActivity extends AppCompatActivity {
             }
             return false;
         });
+    }
 
-
+    public Navigation getNavigation(){
+        return navigation;
     }
 
     private Toolbar initToolbar() {
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         return toolbar;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
@@ -87,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem search = menu.findItem(R.id.action_search);
@@ -107,5 +112,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
-    }
+    }*/
 }

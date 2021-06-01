@@ -4,6 +4,7 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,25 +12,41 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class NoteContentFragment extends Fragment {
+    private Note note;
 
-    public static final String ARG_PARAM1 = "index";
+    public static final String ARG_PARAM1 = "Param_Note";
     public static final int DEFAULT_INDEX = 0;
     private int index = DEFAULT_INDEX;
+
+    private TextInputEditText title;
+    private TextInputEditText content;
+    private DatePicker datePicker;
 
     public NoteContentFragment() {
 
     }
 
-    public static NoteContentFragment newInstance(int index) {
+    public static NoteContentFragment newInstance(Note note) {
         NoteContentFragment fragment = new NoteContentFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, index);
+        args.putParcelable(ARG_PARAM1, note);
         fragment.setArguments(args);
+        return fragment;
+    }
+    
+    public static NoteContentFragment newInstance(){
+        NoteContentFragment fragment = new NoteContentFragment();
         return fragment;
     }
 
@@ -37,7 +54,7 @@ public class NoteContentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            index = getArguments().getInt(ARG_PARAM1, DEFAULT_INDEX);
+            note = getArguments().getParcelable(ARG_PARAM1);
         }
     }
 
@@ -45,16 +62,53 @@ public class NoteContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note_content, container, false);
-        TextView content = view.findViewById(R.id.note_content);
-        TypedArray notes = getResources().obtainTypedArray(R.array.note_content);
-        content.setText(notes.getResourceId(index, DEFAULT_INDEX));
-        content.setTextSize(30);
-        ImageView image = view.findViewById(R.id.image);
-        TypedArray images = getResources().obtainTypedArray(R.array.images);
-        image.setImageResource(images.getResourceId(index, DEFAULT_INDEX));
+        initView(view);
+
+        if(note != null){
+            populateView();
+        }
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        note = collectNoteContent();
+    }
 
+    private void initView(View view) {
+        title = view.findViewById(R.id.inputTitle);
+        content = view.findViewById(R.id.inputContent);
+        datePicker = view.findViewById(R.id.inputDate);
+    }
 
+    private void populateView(){
+        title.setText(note.getTitle());
+        content.setText(note.getText());
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(note.getDate());
+        this.datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
+    }
+
+    private Note collectNoteContent(){
+        String title = this.title.getText().toString();
+        String content = this.content.getText().toString();
+        Date date = getDateFromDatePicker();
+        int picture;
+        if (note != null){
+            picture = note.getPicture();
+        } else {
+            picture = R.drawable.typewriter;
+        }
+        return new Note(title, content, picture, date);
+    }
+
+    private Date getDateFromDatePicker() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, this.datePicker.getYear());
+        cal.set(Calendar.MONTH, this.datePicker.getMonth());
+        cal.set(Calendar.DAY_OF_MONTH, this.datePicker.getDayOfMonth());
+        return cal.getTime();
+    }
 }
