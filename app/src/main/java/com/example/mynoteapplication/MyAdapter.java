@@ -16,12 +16,12 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private NoteSourceImpl noteSource;
+    private NoteSource noteSource;
     private Fragment fragment;
     private OnItemClickListener listener;
     private int menuPosition;
 
-    public MyAdapter(NoteSourceImpl noteSource, Fragment fragment) {
+    public MyAdapter(NoteSource noteSource, Fragment fragment) {
         this.noteSource = noteSource;
         this.fragment = fragment;
     }
@@ -52,11 +52,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.listener = listener;
     }
 
-    public int getMenuPosition(){
+    public int getMenuPosition() {
         return menuPosition;
     }
 
-     class MyViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
         private TextView content;
@@ -71,46 +75,39 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             date = itemView.findViewById(R.id.date);
 
             registerContextMenu(itemView);
+
+            image.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(MyViewHolder.this.getAdapterPosition());
+                }
+            });
+
+            image.setOnLongClickListener(v -> {
+                menuPosition = getLayoutPosition();
+                itemView.showContextMenu();
+                return true;
+            });
         }
 
-         private void registerContextMenu(View itemView) {
-            if (fragment != null){
-                itemView.setOnLongClickListener(new View.OnLongClickListener(){
-                    @Override
-                    public boolean onLongClick(View v) {
-                        menuPosition = getLayoutPosition();
-                        return false;
-                    }
+        private void registerContextMenu(View itemView) {
+            if (fragment != null) {
+                itemView.setOnLongClickListener(v -> {
+                    menuPosition = getLayoutPosition();
+                    return false;
                 });
                 fragment.registerForContextMenu(itemView);
             }
-         }
-
-         void bind(Note note) {
-            title.setText(note.getTitle());
-            content.setText(note.getText());
-            image.setImageResource(note.getPicture());
-            date.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDate()));
-
-            image.setOnClickListener(v -> {
-                if(listener != null){
-                    listener.onItemClick(getAdapterPosition());
-                }
-            });
-
-            image.setOnLongClickListener(new View.OnLongClickListener(){
-                @Override
-                public boolean onLongClick(View v) {
-                    menuPosition = getLayoutPosition();
-                    itemView.showContextMenu();
-                    return true;
-                }
-            });
         }
 
+            void bind (Note note){
+                title.setText(note.getTitle());
+                content.setText(note.getText());
+                image.setImageResource(note.getPicture());
+                date.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDate()));
+
+            }
+        }
+
+
     }
 
-    interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-}

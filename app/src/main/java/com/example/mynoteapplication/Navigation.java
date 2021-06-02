@@ -11,9 +11,12 @@ public class Navigation {
         this.manager = manager;
     }
 
-    public void addFragment(Fragment fragment){
+    public void addFragment(Fragment fragment, boolean useBackstack){
         FragmentTransaction fragmentTransaction = manager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
+        if(useBackstack){
+            fragmentTransaction.addToBackStack(null);
+        }
         fragmentTransaction.commit();
     }
 }

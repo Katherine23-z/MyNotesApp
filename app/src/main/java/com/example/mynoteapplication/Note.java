@@ -19,12 +19,6 @@ public class Note implements Parcelable {
         this.date = date;
     }
 
-    public Note(String title, String text, int picture) {
-        this.title = title;
-        this.text = text;
-        this.picture = picture;
-    }
-
     protected Note(Parcel in) {
         title = in.readString();
         text = in.readString();
@@ -38,6 +32,11 @@ public class Note implements Parcelable {
         dest.writeString(text);
         dest.writeInt(picture);
         dest.writeLong(date.getTime());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -66,11 +65,6 @@ public class Note implements Parcelable {
 
     public Date getDate() {
         return date;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
 }

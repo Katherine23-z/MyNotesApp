@@ -1,5 +1,6 @@
 package com.example.mynoteapplication;
 
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 
@@ -24,10 +25,9 @@ import java.util.Date;
 
 public class NoteContentFragment extends Fragment {
     private Note note;
+    private Publisher publisher;
 
     public static final String ARG_PARAM1 = "Param_Note";
-    public static final int DEFAULT_INDEX = 0;
-    private int index = DEFAULT_INDEX;
 
     private TextInputEditText title;
     private TextInputEditText content;
@@ -59,6 +59,19 @@ public class NoteContentFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        MainActivity activity = (MainActivity)context;
+        publisher = activity.getPublisher();
+    }
+
+    @Override
+    public void onDetach() {
+        publisher = null;
+        super.onDetach();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_note_content, container, false);
@@ -74,6 +87,12 @@ public class NoteContentFragment extends Fragment {
     public void onStop() {
         super.onStop();
         note = collectNoteContent();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        publisher.notifySingle(note);
     }
 
     private void initView(View view) {
@@ -105,10 +124,10 @@ public class NoteContentFragment extends Fragment {
     }
 
     private Date getDateFromDatePicker() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, this.datePicker.getYear());
-        cal.set(Calendar.MONTH, this.datePicker.getMonth());
-        cal.set(Calendar.DAY_OF_MONTH, this.datePicker.getDayOfMonth());
-        return cal.getTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, this.datePicker.getYear());
+        calendar.set(Calendar.MONTH, this.datePicker.getMonth());
+        calendar.set(Calendar.DAY_OF_MONTH, this.datePicker.getDayOfMonth());
+        return calendar.getTime();
     }
 }

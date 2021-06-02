@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private Navigation navigation;
+    private Publisher publisher = new Publisher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,19 +27,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         navigation = new Navigation(getSupportFragmentManager());
         initView();
-        getNavigation().addFragment(NotesFragment.newInstance());
+        getNavigation().addFragment(NotesFragment.newInstance(), false);
     }
 
     private void initView() {
         Toolbar toolbar = initToolbar();
         initDrawer(toolbar);
-        initFloatingButton();
-    }
-
-    private void initFloatingButton() {
-        FloatingActionButton floatingActionButton = findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(v ->
-                Toast.makeText(MainActivity.this, "Add new note", Toast.LENGTH_SHORT).show());
     }
 
     private void initDrawer(Toolbar toolbar) {
@@ -63,54 +57,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public Navigation getNavigation(){
-        return navigation;
-    }
-
     private Toolbar initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         return toolbar;
     }
 
-    /*@Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 
-        switch (id) {
-            case R.id.action_add:
-                Toast toastAdd = Toast.makeText(getApplicationContext(), "Add note", Toast.LENGTH_SHORT);
-                toastAdd.show();
-                return true;
-            case R.id.action_delete:
-                Toast toastDel = Toast.makeText(getApplicationContext(), "Delete note", Toast.LENGTH_SHORT);
-                toastDel.show();
-                return true;
-            case R.id.action_main:
-                Toast toastMain = Toast.makeText(getApplicationContext(), "Main", Toast.LENGTH_SHORT);
-                toastMain.show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+    public Publisher getPublisher(){
+        return publisher;
+    }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem search = menu.findItem(R.id.action_search);
-        SearchView searchText = (SearchView) search.getActionView();
-        searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this, query, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }*/
+    public Navigation getNavigation(){
+        return navigation;
+    }
 }
