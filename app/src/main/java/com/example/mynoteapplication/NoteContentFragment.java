@@ -114,13 +114,15 @@ public class NoteContentFragment extends Fragment {
         String title = this.title.getText().toString();
         String content = this.content.getText().toString();
         Date date = getDateFromDatePicker();
-        int picture;
-        if (note != null){
-            picture = note.getPicture();
-        } else {
-            picture = R.drawable.typewriter;
+        if(note != null){
+            Note answer;
+            answer = new Note(title, content, note.getPicture(), date);
+            answer.setId(note.getId());
+            return answer;
+        } else{
+            int picture = PictureIndexConverter.getPictureByIndex(PictureIndexConverter.randomPictureIndex());
+            return new Note(title, content, picture, date);
         }
-        return new Note(title, content, picture, date);
     }
 
     private Date getDateFromDatePicker() {

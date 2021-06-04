@@ -21,9 +21,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private OnItemClickListener listener;
     private int menuPosition;
 
-    public MyAdapter(NoteSource noteSource, Fragment fragment) {
-        this.noteSource = noteSource;
+    public MyAdapter(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    public void setNoteSource(NoteSource noteSource){
+        this.noteSource = noteSource;
+        notifyDataSetChanged();
     }
 
     @NonNull

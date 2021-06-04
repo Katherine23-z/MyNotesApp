@@ -17,7 +17,7 @@ public class NoteSourceImpl implements NoteSource{
         this.res = res;
     }
 
-    public NoteSourceImpl init(){
+    public NoteSource init(NoteSourceResponse noteSourceResponse){
         String[] titles = res.getStringArray(R.array.Titles);
         String[] content = res.getStringArray(R.array.note_content);
         int[] images = getImagesArray();
@@ -29,7 +29,11 @@ public class NoteSourceImpl implements NoteSource{
                     images[i],
                     Calendar.getInstance().getTime()
             ));
-        }return this;
+        }
+        if(noteSourceResponse != null){
+            noteSourceResponse.initialized(this);
+        }
+        return this;
     }
 
     private int[] getImagesArray() {
