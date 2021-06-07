@@ -44,8 +44,8 @@ public class NoteContentFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    
-    public static NoteContentFragment newInstance(){
+
+    public static NoteContentFragment newInstance() {
         NoteContentFragment fragment = new NoteContentFragment();
         return fragment;
     }
@@ -61,7 +61,7 @@ public class NoteContentFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        MainActivity activity = (MainActivity)context;
+        MainActivity activity = (MainActivity) context;
         publisher = activity.getPublisher();
     }
 
@@ -77,7 +77,7 @@ public class NoteContentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_note_content, container, false);
         initView(view);
 
-        if(note != null){
+        if (note != null) {
             populateView();
         }
         return view;
@@ -101,7 +101,7 @@ public class NoteContentFragment extends Fragment {
         datePicker = view.findViewById(R.id.inputDate);
     }
 
-    private void populateView(){
+    private void populateView() {
         title.setText(note.getTitle());
         content.setText(note.getText());
 
@@ -110,16 +110,16 @@ public class NoteContentFragment extends Fragment {
         this.datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
     }
 
-    private Note collectNoteContent(){
+    private Note collectNoteContent() {
         String title = this.title.getText().toString();
         String content = this.content.getText().toString();
         Date date = getDateFromDatePicker();
-        if(note != null){
+        if (note != null) {
             Note answer;
             answer = new Note(title, content, note.getPicture(), date);
             answer.setId(note.getId());
             return answer;
-        } else{
+        } else {
             int picture = PictureIndexConverter.getPictureByIndex(PictureIndexConverter.randomPictureIndex());
             return new Note(title, content, picture, date);
         }

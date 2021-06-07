@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 
 public class NotesFragment extends Fragment {
-    private static final long MY_DEFAULT_DURATION = 2000 ;
+    private static final long MY_DEFAULT_DURATION = 2000;
     private NoteSource notes;
     private RecyclerView recyclerView;
     private MyAdapter adapter;
@@ -36,7 +36,7 @@ public class NotesFragment extends Fragment {
     public NotesFragment() {
     }
 
-    public static NotesFragment newInstance(){
+    public static NotesFragment newInstance() {
         return new NotesFragment();
     }
 
@@ -59,7 +59,7 @@ public class NotesFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        MainActivity activity = (MainActivity)context;
+        MainActivity activity = (MainActivity) context;
         navigation = activity.getNavigation();
         publisher = activity.getPublisher();
     }
@@ -100,7 +100,7 @@ public class NotesFragment extends Fragment {
         animator.setRemoveDuration(MY_DEFAULT_DURATION);
         recyclerView.setItemAnimator(animator);
 
-        if(moveToFirstPosition && notes.size() > 0){
+        if (moveToFirstPosition && notes.size() > 0) {
             recyclerView.smoothScrollToPosition(0);
             moveToFirstPosition = false;
         }
@@ -119,14 +119,14 @@ public class NotesFragment extends Fragment {
     }
 
     private boolean onItemSelected(int menuItemId) {
-        switch (menuItemId){
+        switch (menuItemId) {
             case R.id.action_add:
                 navigation.addFragment(NoteContentFragment.newInstance(), true);
                 publisher.subscribe(new Observer() {
                     @Override
                     public void updateNote(Note note) {
                         notes.addNote(note);
-                        adapter.notifyItemInserted(notes.size()-1);
+                        adapter.notifyItemInserted(notes.size() - 1);
                         moveToFirstPosition = true;
                     }
                 });

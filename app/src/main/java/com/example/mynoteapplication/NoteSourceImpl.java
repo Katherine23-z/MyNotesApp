@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class NoteSourceImpl implements NoteSource{
+public class NoteSourceImpl implements NoteSource {
     private List<Note> list;
     private Resources res;
 
@@ -17,12 +17,12 @@ public class NoteSourceImpl implements NoteSource{
         this.res = res;
     }
 
-    public NoteSource init(NoteSourceResponse noteSourceResponse){
+    public NoteSource init(NoteSourceResponse noteSourceResponse) {
         String[] titles = res.getStringArray(R.array.Titles);
         String[] content = res.getStringArray(R.array.note_content);
         int[] images = getImagesArray();
 
-        for(int i = 0; i < content.length; i++){
+        for (int i = 0; i < content.length; i++) {
             list.add(new Note(
                     titles[i],
                     content[i],
@@ -30,7 +30,7 @@ public class NoteSourceImpl implements NoteSource{
                     Calendar.getInstance().getTime()
             ));
         }
-        if(noteSourceResponse != null){
+        if (noteSourceResponse != null) {
             noteSourceResponse.initialized(this);
         }
         return this;
@@ -41,7 +41,8 @@ public class NoteSourceImpl implements NoteSource{
         int[] images = new int[array.length()];
         for (int i = 0; i < array.length(); i++) {
             images[i] = array.getResourceId(i, 0);
-        }return images;
+        }
+        return images;
     }
 
     @Override

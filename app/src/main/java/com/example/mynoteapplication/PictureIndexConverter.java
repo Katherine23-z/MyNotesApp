@@ -13,22 +13,22 @@ public class PictureIndexConverter {
             R.drawable.notebook1,
     };
 
-    public static int randomPictureIndex(){
-        synchronized (syncObj){
+    public static int randomPictureIndex() {
+        synchronized (syncObj) {
             return rnd.nextInt(picIndex.length);
         }
     }
 
-    public static int getPictureByIndex(int index){
-        if (index < 0 || index >= picIndex.length){
+    public static int getPictureByIndex(int index) {
+        if (index < 0 || index >= picIndex.length) {
             index = 0;
         }
         return picIndex[index];
     }
 
-    public static int getIndexByPicture(int picture){
-        for(int i = 0; i < picIndex.length; i++){
-            if (picIndex[i] == picture){
+    public static int getIndexByPicture(int picture) {
+        for (int i = 0; i < picIndex.length; i++) {
+            if (picIndex[i] == picture) {
                 return i;
             }
         }

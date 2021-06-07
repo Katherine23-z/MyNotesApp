@@ -71,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public Publisher getPublisher(){
+    public Publisher getPublisher() {
         return publisher;
     }
 
-    public Navigation getNavigation(){
+    public Navigation getNavigation() {
         return navigation;
     }
 }

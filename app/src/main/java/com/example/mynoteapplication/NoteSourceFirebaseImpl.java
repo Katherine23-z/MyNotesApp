@@ -20,19 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class NoteSourceFirebaseImpl implements NoteSource{
+public class NoteSourceFirebaseImpl implements NoteSource {
     private static final String NOTES_COLLECTION = "notes";
     private static final String TAG = "NoteSourceFirebaseImpl";
 
     private FirebaseFirestore store = FirebaseFirestore.getInstance();
     private CollectionReference collection = store.collection(NOTES_COLLECTION);
-    private List<Note> notes= new ArrayList<>();
+    private List<Note> notes = new ArrayList<>();
 
 
     @Override
     public NoteSource init(final NoteSourceResponse noteSourceResponse) {
         collection.orderBy(NoteMapping.Fields.DATE, Query.Direction.DESCENDING).get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                            @Override
                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                if (task.isSuccessful()) {
@@ -45,7 +45,7 @@ public class NoteSourceFirebaseImpl implements NoteSource{
                                                    }
                                                    Log.d(TAG, "success " + notes.size() + " qnt");
                                                    noteSourceResponse.initialized(NoteSourceFirebaseImpl.this);
-                                               }else {
+                                               } else {
                                                    Log.d(TAG, "get failed with ", task.getException());
                                                }
                                            }
@@ -66,7 +66,7 @@ public class NoteSourceFirebaseImpl implements NoteSource{
 
     @Override
     public int size() {
-        if(notes == null) {
+        if (notes == null) {
             return 0;
         }
         return notes.size();

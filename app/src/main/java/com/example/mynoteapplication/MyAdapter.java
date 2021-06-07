@@ -25,7 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.fragment = fragment;
     }
 
-    public void setNoteSource(NoteSource noteSource){
+    public void setNoteSource(NoteSource noteSource) {
         this.noteSource = noteSource;
         notifyDataSetChanged();
     }
@@ -103,15 +103,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         }
 
-            void bind (Note note){
-                title.setText(note.getTitle());
-                content.setText(note.getText());
-                image.setImageResource(note.getPicture());
-                date.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDate()));
+        void bind(Note note) {
+            title.setText(note.getTitle());
+            content.setText(note.getText());
+            image.setImageResource(note.getPicture());
+            date.setText(new SimpleDateFormat("dd-MM-yy").format(note.getDate()));
 
-            }
         }
-
-
     }
+
+
+}
 
