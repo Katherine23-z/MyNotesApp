@@ -1,11 +1,13 @@
 package com.example.mynoteapplication;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -143,13 +145,25 @@ public class NotesFragment extends Fragment {
                 });
                 return true;
             case R.id.action_delete:
-                int deletePosition = adapter.getMenuPosition();
-                notes.deleteNote(deletePosition);
-                adapter.notifyItemRemoved(deletePosition);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(R.string.dialogTitle)
+                        .setMessage(R.string.dialogMessage)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.ok, (dialog, which) -> {
+                            int deletePosition = adapter.getMenuPosition();
+                            notes.deleteNote(deletePosition);
+                            adapter.notifyItemRemoved(deletePosition);
+                        }).show();
                 return true;
             case R.id.action_clear:
-                notes.clearNote();
-                adapter.notifyDataSetChanged();
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                builder1.setTitle(R.string.dialogTitle)
+                        .setMessage(R.string.dialogMessageClear)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.ok, (dialog, which) -> {
+                            notes.clearNote();
+                            adapter.notifyDataSetChanged();
+                        }).show();
                 return true;
         }
         return false;

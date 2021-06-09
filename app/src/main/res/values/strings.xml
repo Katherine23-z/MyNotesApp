@@ -19,4 +19,8 @@
     <string name="share">Share</string>
     <string name="favourite">Favourite</string>
     <string name="contentDescription">ADD</string>
+    <string name="dialogTitle">Attention</string>
+    <string name="dialogMessage">Do you really want to delete this message?</string>
+    <string name="ok">yes</string>
+    <string name="dialogMessageClear">Do you want to clear all notes?</string>
 </resources>
